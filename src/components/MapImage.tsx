@@ -11,6 +11,8 @@ export function MapImage({ imageUrl, ppf }: MapImageProps) {
   const [dimensions, setDimensions] = useState({ width: 1, height: 1 })
   const texture = useLoader(THREE.TextureLoader, imageUrl)
 
+
+
   useEffect(() => {
     // Calculate real-world dimensions based on image size and ppf
     const width = texture.image.width / ppf
@@ -18,8 +20,10 @@ export function MapImage({ imageUrl, ppf }: MapImageProps) {
     setDimensions({ width, height })
   }, [texture, ppf])
 
+
+  console.log("rendering map image")
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
       <planeGeometry args={[dimensions.width, dimensions.height]} />
       <meshStandardMaterial 
         map={texture} 

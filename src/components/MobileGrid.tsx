@@ -130,81 +130,98 @@ const GridMaterial = /* @__PURE__ */ shaderMaterial(
       if (gl_FragColor.a <= 0.0) discard;
 
       #include <tonemapping_fragment>
-      #include <${version >= 154 ? "colorspace_fragment" : "encodings_fragment"}>
+      #include <${
+        version >= 154 ? "colorspace_fragment" : "encodings_fragment"
+      }>
     }
   `
 );
 
-export const Grid: ForwardRefComponent<Omit<JSX.IntrinsicElements["mesh"], "args"> & GridProps, THREE.Mesh> =
-  /* @__PURE__ */ React.forwardRef(
-    (
-      {
-        args,
-        cellColor = "#000000",
-        sectionColor = "#2080ff",
-        cellSize = 0.5,
-        sectionSize = 1,
-        followCamera = false,
-        infiniteGrid = false,
-        fadeDistance = 100,
-        fadeStrength = 1,
-        fadeFrom = 1,
-        cellThickness = 0.5,
-        sectionThickness = 1,
-        side = THREE.BackSide,
-        ...props
-      }: Omit<JSX.IntrinsicElements["mesh"], "args"> & GridProps,
-      fRef: React.ForwardedRef<THREE.Mesh>
-    ) => {
-      extend({ GridMaterial });
+export const Grid: ForwardRefComponent<
+  Omit<JSX.IntrinsicElements["mesh"], "args"> & GridProps,
+  THREE.Mesh
+> = /* @__PURE__ */ React.forwardRef(
+  (
+    {
+      args,
+      cellColor = "#000000",
+      sectionColor = "#2080ff",
+      cellSize = 0.5,
+      sectionSize = 1,
+      followCamera = false,
+      infiniteGrid = false,
+      fadeDistance = 100,
+      fadeStrength = 1,
+      fadeFrom = 1,
+      cellThickness = 0.5,
+      sectionThickness = 1,
+      side = THREE.BackSide,
+      ...props
+    }: Omit<JSX.IntrinsicElements["mesh"], "args"> & GridProps,
+    fRef: React.ForwardedRef<THREE.Mesh>
+  ) => {
+    extend({ GridMaterial });
 
-      const ref = React.useRef<THREE.Mesh>(null!);
-      React.useImperativeHandle(fRef, () => ref.current, []);
-      const plane = new THREE.Plane();
-      const upVector = new THREE.Vector3(0, 1, 0);
-      const zeroVector = new THREE.Vector3(0, 0, 0);
-      const cameraDirection = new THREE.Vector3();
+    const ref = React.useRef<THREE.Mesh>(null!);
+    React.useImperativeHandle(fRef, () => ref.current, []);
+    const plane = new THREE.Plane();
+    const upVector = new THREE.Vector3(0, 1, 0);
+    const zeroVector = new THREE.Vector3(0, 0, 0);
+    const cameraDirection = new THREE.Vector3();
 
-      useFrame((state) => {
-        plane.setFromNormalAndCoplanarPoint(upVector, zeroVector).applyMatrix4(ref.current.matrixWorld);
+    useFrame((state) => {
+      plane
+        .setFromNormalAndCoplanarPoint(upVector, zeroVector)
+        .applyMatrix4(ref.current.matrixWorld);
 
-        const gridMaterial = ref.current.material as THREE.ShaderMaterial;
-        const worldCamProjPosition = gridMaterial.uniforms.worldCamProjPosition as THREE.Uniform<THREE.Vector3>;
-        const worldPlanePosition = gridMaterial.uniforms.worldPlanePosition as THREE.Uniform<THREE.Vector3>;
-        const worldCamTargetPosition = gridMaterial.uniforms.worldCamTargetPosition as THREE.Uniform<THREE.Vector3>;
+      const gridMaterial = ref.current.material as THREE.ShaderMaterial;
+      const worldCamProjPosition = gridMaterial.uniforms
+        .worldCamProjPosition as THREE.Uniform<THREE.Vector3>;
+      const worldPlanePosition = gridMaterial.uniforms
+        .worldPlanePosition as THREE.Uniform<THREE.Vector3>;
+      const worldCamTargetPosition = gridMaterial.uniforms
+        .worldCamTargetPosition as THREE.Uniform<THREE.Vector3>;
 
-        state.camera.getWorldDirection(cameraDirection);
-        const ray = new THREE.Ray(state.camera.position, cameraDirection);
+      state.camera.getWorldDirection(cameraDirection);
+      const ray = new THREE.Ray(state.camera.position, cameraDirection);
 
-  //     console.log(worldCamTargetPosition.value);
+      //     console.log(worldCamTargetPosition.value);
 
-        ray.intersectPlane(plane, worldCamTargetPosition.value);
+      ray.intersectPlane(plane, worldCamTargetPosition.value);
 
-        plane.projectPoint(state.camera.position, worldCamProjPosition.value);
-        worldPlanePosition.value.set(0, 0, 0).applyMatrix4(ref.current.matrixWorld);
-      });
+      plane.projectPoint(state.camera.position, worldCamProjPosition.value);
+      worldPlanePosition.value
+        .set(0, 0, 0)
+        .applyMatrix4(ref.current.matrixWorld);
+    });
 
-      const uniforms1 = {
-        cellSize,
-        sectionSize,
-        cellColor,
-        sectionColor,
-        cellThickness,
-        sectionThickness,
-      };
-      const uniforms2 = {
-        fadeDistance,
-        fadeStrength,
-        fadeFrom,
-        infiniteGrid,
-        followCamera,
-      };
+    const uniforms1 = {
+      cellSize,
+      sectionSize,
+      cellColor,
+      sectionColor,
+      cellThickness,
+      sectionThickness,
+    };
+    const uniforms2 = {
+      fadeDistance,
+      fadeStrength,
+      fadeFrom,
+      infiniteGrid,
+      followCamera,
+    };
 
-      return (
-        <mesh ref={ref} frustumCulled={false} {...props}>
-          <gridMaterial transparent extensions-derivatives side={side} {...uniforms1} {...uniforms2} />
-          <planeGeometry args={args} />
-        </mesh>
-      );
-    }
-  );
+    return (
+      <mesh ref={ref} frustumCulled={false} {...props}>
+        <gridMaterial
+          transparent
+          extensions-derivatives
+          side={side}
+          {...uniforms1}
+          {...uniforms2}
+        />
+        <planeGeometry args={args} />
+      </mesh>
+    );
+  }
+);

@@ -1,0 +1,272 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        7.103099822998047,
+        9.876299858093262,
+        25.62820053100586
+      ],
+      "min": [
+        -7.83519983291626,
+        -12.944299697875977,
+        0.03629999980330467
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999372959136963,
+        0.9999653100967407,
+        0.9999455213546753
+      ],
+      "min": [
+        -0.9999952912330627,
+        -0.9999407529830933,
+        -0.9999615550041199
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 334740,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 65457,
+      "max": [
+        7.878300189971924,
+        8.810400009155273,
+        24.202899932861328
+      ],
+      "min": [
+        -3.558500051498413,
+        -8.790599822998047,
+        0.02800000086426735
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 2358252,
+      "componentType": 5126,
+      "count": 65457,
+      "max": [
+        0.9999916553497314,
+        0.9999726414680481,
+        0.9999964237213135
+      ],
+      "min": [
+        -0.9999984502792358,
+        -0.9999979734420776,
+        -0.9999873638153076
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1338960,
+      "componentType": 5125,
+      "count": 305922,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3143736,
+      "componentType": 5126,
+      "count": 57016,
+      "max": [
+        13.875100135803223,
+        12.381799697875977,
+        0.5889000296592712
+      ],
+      "min": [
+        -11.025400161743164,
+        -12.521599769592285,
+        -3.661600112915039
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3827928,
+      "componentType": 5126,
+      "count": 57016,
+      "max": [
+        0.9999996423721313,
+        0.999998927116394,
+        1.0
+      ],
+      "min": [
+        -0.9999488592147827,
+        -0.9999974370002747,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2562648,
+      "componentType": 5125,
+      "count": 332994,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "The Mines (https://sketchfab.com/The_Mines)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/goblin-archer-miniature-stl-for-3d-printing-5abf5d4679ba4c4b985c8d1d4b9a48d5",
+      "title": "Goblin Archer miniature STL for 3d printing"
+    },
+    "generator": "Sketchfab-13.85.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 3894624,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4512120,
+      "byteOffset": 3894624,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 8406744,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "material_0",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.38177611602743844,
+          0.36212285600210353,
+          0.33496648689043357,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4
+      ],
+      "name": "Goblin Archer.OBJ.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
