@@ -1,7 +1,7 @@
-import { createContext, Suspense, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { LevelData, useLevelData } from "../../../lib/entities/level";
 import MapImage from "./map-image";
-import { Stars } from "@react-three/drei";
+
 import { motion } from "framer-motion-3d";
 import { useSceneContext } from "..";
 

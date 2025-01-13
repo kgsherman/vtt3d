@@ -1,13 +1,7 @@
 import { NoToneMapping } from "three";
 import { Canvas } from "@react-three/fiber";
-import { MotionCanvas } from "framer-motion-3d";
 
-import {
-  GizmoHelper,
-  GizmoViewport,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 
 export default function SceneCanvas({
   children,
