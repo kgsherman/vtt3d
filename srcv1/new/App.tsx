@@ -8,7 +8,6 @@ import { supabase } from "./entities/supabase";
 
 import Game from "./pages/Game";
 
-
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
 
@@ -27,13 +26,7 @@ export default function App() {
   }, []);
 
   if (!session) {
-    return (
-      <Auth
-        supabaseClient={supabase}
-        appearance={{ theme: ThemeSupa }}
-        providers={["google"]}
-      />
-    );
+    return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={["google"]} />;
   } else {
     return <Game />;
   }

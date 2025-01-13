@@ -85,14 +85,19 @@ export function Level({ ...data }: LevelData) {
     queryFn: fetchMapUrl,
   });
 
-  const {mounted} = useControls({
+  const { mounted } = useControls({
     mounted: { value: false, label: "Mounted" },
   });
   const transitions = useTransition(mounted, {
     from: { y: -1000, opacity: 0 },
     enter: { y: data.elevation, opacity: 1 },
-    leave: { y: -25, opacity: 0 },
-    config: {  ...config.default}, 
+    leave: { y: -50, opacity: 0 },
+    config: {
+      precision: 0.001,
+    },
+    onStart: () => console.log("Transition started"),
+    onRest: () => console.log("Transition ended"),
+    onDestroyed: () => console.log("Transition destroyed"),
   });
 
   return transitions(

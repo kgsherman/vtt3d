@@ -18,8 +18,10 @@ export type Database = {
           id: string
           image_src: string | null
           name: string
+          offset_x: number
+          offset_y: number
           ppi: number
-          scene: string
+          scene_id: string
           width: number
         }
         Insert: {
@@ -30,8 +32,10 @@ export type Database = {
           id?: string
           image_src?: string | null
           name: string
+          offset_x?: number
+          offset_y?: number
           ppi?: number
-          scene: string
+          scene_id: string
           width?: number
         }
         Update: {
@@ -42,14 +46,16 @@ export type Database = {
           id?: string
           image_src?: string | null
           name?: string
+          offset_x?: number
+          offset_y?: number
           ppi?: number
-          scene?: string
+          scene_id?: string
           width?: number
         }
         Relationships: [
           {
-            foreignKeyName: "level_scene_fkey"
-            columns: ["scene"]
+            foreignKeyName: "level_scene_id_fkey"
+            columns: ["scene_id"]
             isOneToOne: false
             referencedRelation: "scene"
             referencedColumns: ["id"]
