@@ -11,9 +11,6 @@ function RouteComponent() {
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>{" "}
-        <Link to="/scenes" className="[&.active]:font-bold">
-          Scenes
-        </Link>
       </div>
       <hr />
     </div>
