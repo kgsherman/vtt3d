@@ -45,6 +45,7 @@ export default function MapImage() {
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
       <planeGeometry args={mapDimensions.toArray()} />
       <motion.meshBasicMaterial
+        key={`map-material-${levelData.id}`}
         initial={{ opacity: 0 }}
         animate={{
           opacity: 1,
