@@ -1,42 +1,14 @@
-import type { LevelData } from "../../lib/entities/level";
-import { createContext, Suspense, useContext, useState } from "react";
+import { Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useControls } from "leva";
+
+import { SceneProvider } from "./scene-context";
 import { useScene } from "../../lib/entities/scene";
 
 import SceneCanvas from "./canvas";
-import ElevationRuler from "./elevation-ruler";
+import ElevationRuler from "./elevation-ruler/index";
 import Level from "./level";
-
-type SceneContextProps = {
-  levels: Map<string, LevelData>;
-  setLevels: (
-    levels:
-      | Map<string, LevelData>
-      | ((prev: Map<string, LevelData>) => Map<string, LevelData>)
-  ) => void;
-  activeLevel?: string;
-};
-const SceneContext = createContext<SceneContextProps>(
-  null as unknown as SceneContextProps
-);
-function SceneProvider({ children }: { children: React.ReactNode }) {
-  const [levels, setLevels] = useState<Map<string, LevelData>>(new Map());
-  return (
-    <SceneContext.Provider value={{ levels, setLevels }}>
-      {children}
-    </SceneContext.Provider>
-  );
-}
-export function useSceneContext() {
-  const context = useContext(SceneContext);
-  if (!context) {
-    throw new Error(
-      "useSceneContext must be used within a SceneContext Provider"
-    );
-  }
-  return context;
-}
+import { Preload } from "@react-three/drei";
 
 function Scene() {
   const { mounted } = useControls({
@@ -58,6 +30,7 @@ function Scene() {
               sceneLevelIds.map((levelId, i) => (
                 <Suspense key={`loading-${levelId}`} fallback={<object3D />}>
                   <Level id={levelId} key={levelId} index={i} />
+                  <Preload all />
                 </Suspense>
               ))}
           </AnimatePresence>

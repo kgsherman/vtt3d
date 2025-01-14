@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect } from "react";
+import { motion } from "framer-motion-3d";
 import { LevelData, useLevelData } from "../../../lib/entities/level";
 import MapImage from "./map-image";
 
-import { motion } from "framer-motion-3d";
-import { useSceneContext } from "..";
+import { useSceneContext } from "../scene-context";
 
 type LevelContextProps = {
   data: LevelData;
@@ -24,6 +24,7 @@ export function useLevelContext() {
 
 export default function Level({ id, index }: { id: string; index: number }) {
   const data = useLevelData(id);
+  console.log(`${data.name} - Fetched level data`);
   const { setLevels } = useSceneContext();
 
   useEffect(() => setLevels((prev) => new Map(prev.set(id, data))), [data]);
@@ -31,7 +32,7 @@ export default function Level({ id, index }: { id: string; index: number }) {
   return (
     <LevelContext.Provider value={{ data }}>
       <motion.object3D
-        key="level-efb08f77-dec3-4843-aa22-27e567c51a7c"
+        key={`level-${id}`}
         initial={{ y: -100 + data.elevation, scale: 0 }}
         animate={{
           y: 0 + data.elevation,

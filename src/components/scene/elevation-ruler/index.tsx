@@ -1,21 +1,16 @@
-import { useSceneContext } from "..";
-import { LevelData } from "../../../lib/entities/level";
+import type { LevelData } from "../../../lib/entities/level";
+import { Fragment } from "react";
+import { useSceneContext } from "../scene-context";
 
-const Elevation = ({
-  elevation,
-  levels,
-}: {
-  elevation: number;
-  levels?: LevelData[];
-}) => {
+const Levels = ({ levels }: { levels?: LevelData[] }) => {
   return (
-    <div className="flex items-center translate-y-[50%] relative">
-      <div className="p-2 text-right absolute right-full text-nowrap">
-        {elevation}
-      </div>
-      <div className="flex gap-2 items-center">
+    <div className="flex grow-0 basis-0 min-h-0 relative ">
+      <div className="flex items-center gap-2 border-b border-white pl-4">
         {levels?.map((level) => (
-          <div key={level.id} className="border border-white px-4 py-1.5">
+          <div
+            key={level.id}
+            className="border border-white px-4 py-1.5 text-nowrap bg-black/80"
+          >
             {level.name}
           </div>
         ))}
@@ -24,73 +19,80 @@ const Elevation = ({
   );
 };
 
+const Elevation = ({ elevation }: { elevation: number }) => (
+  <div className="flex items-center justify-end w-16 mr-4">
+    <div className="absolute text-nowrap">{elevation}ft</div>
+  </div>
+);
+
+const Gap = ({ flexGrow }: { flexGrow: number }) => (
+  <div className="min-h-0" style={{ flexGrow }}></div>
+);
+
 export default function ElevationRuler() {
   const { levels: levelMap } = useSceneContext();
   const levels = Array.from(levelMap.values());
+  const levelElevations = Array.from(new Set(levels.map((l) => l.elevation)));
+  const levelElevationsMax = Math.max(...levelElevations);
+  const levelElevationsMin = Math.min(...levelElevations);
 
-  const defaultMin = -10;
-  const defaultMax = 50;
-  const defaultRange = defaultMax - defaultMin;
+  const limitElevationMax = 10; // the max may not go below 10...
+  const limitElevationMin = -10; // ...and the min may not go above -10
+  const limitRangeMin = 50; // the default range is 50, meaning by default the ruler will show elevations from -10 to 40
 
-  const levelElevations = levels.map((l) => l.elevation);
-  const maxLevelElevation = Math.max(...levelElevations);
-  const minLevelElevation = Math.min(...levelElevations);
-  const levelElevationRange = maxLevelElevation - minLevelElevation;
-  const visibleElevationRange = Math.max(levelElevationRange, defaultRange);
-
-  const elevationMax = Math.max(
-    maxLevelElevation,
-    Math.min(minLevelElevation, defaultMin) + visibleElevationRange
-  );
-  const elevationMin = Math.min(minLevelElevation, defaultMin);
-
-  const bottomBuffer = Math.abs(elevationMin - minLevelElevation);
-
-  const levelsByElevation = Object.groupBy(levels, ({ elevation }) =>
-    elevation.toString()
+  const currentMin = Math.min(levelElevationsMin, limitElevationMin);
+  const currentMax = Math.max(
+    levelElevationsMax,
+    currentMin + limitRangeMin,
+    limitElevationMax
   );
 
-  let lastHighest = elevationMax;
-  const levelsByElevationWithGrowth = Object.keys(levelsByElevation)
-    .sort((a, b) => parseInt(b) - parseInt(a))
-    .map((elevationKey) => {
-      const elevation = parseInt(elevationKey);
-      const levels = levelsByElevation[elevationKey];
+  let elementsLeft = [];
+  if (currentMax > levelElevationsMax)
+    elementsLeft.push(<Elevation elevation={currentMax} />);
 
-      const growth = lastHighest - elevation;
-      lastHighest = elevation;
+  let elementsRight = [] as JSX.Element[];
+  let y = currentMax;
 
-      return {
-        elevation,
-        growth,
-        levels,
-      };
-    });
+  levelElevations.forEach((elevation) => {
+    const rightGap = y - elevation;
+    const leftGap = y - elevation;
+    y = elevation;
+
+    const levelsAtElevation = levels
+      .filter((l) => l.elevation === elevation)
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const elementRight = (
+      <Fragment key={`right-${elevation}`}>
+        <Gap flexGrow={rightGap} />
+        <Levels levels={levelsAtElevation} />
+      </Fragment>
+    );
+    elementsRight.push(elementRight);
+
+    const elementLeft = (
+      <Fragment key={`left-${elevation}`}>
+        <Gap flexGrow={leftGap} />
+        <Elevation elevation={elevation} />
+      </Fragment>
+    );
+    elementsLeft.push(elementLeft);
+  });
+
+  elementsRight.push(<Gap flexGrow={y - currentMin} />);
+  elementsLeft.push(
+    <>
+      <Gap flexGrow={y - currentMin} />
+      {y !== currentMin && <Elevation elevation={currentMin} />}
+    </>
+  );
 
   return (
-    <div className="absolute bottom-0 top-0 left-24 flex flex-col justify-center">
-      <div
-        className="flex flex-col border-l border-gray-400"
-        style={{ height: 400, width: 700 }}
-      >
-        {}
-        {levelsByElevationWithGrowth.map(
-          ({ elevation, growth, levels }, index) => (
-            <div
-              key={`elevation-${elevation}`}
-              className="flex items-end justify-start  relative"
-              style={{
-                flexGrow: growth,
-                flexBasis: 0,
-                minHeight: index === 0 ? "0" : "auto",
-              }}
-            >
-              <Elevation elevation={elevation} levels={levels} />
-            </div>
-          )
-        )}
-        <div style={{ flexGrow: bottomBuffer }}></div>
-      </div>
+    <div className="absolute top-0 bottom-0 my-auto flex items-stretch h-96 ">
+      <div className="flex flex-col">{elementsLeft}</div>
+      <div className="border-l border-white"></div>
+      <div className="flex flex-col">{elementsRight}</div>
     </div>
   );
 }

@@ -30,8 +30,11 @@ export default function MapImage() {
     queryKey: ["get-map", gameId, levelData.image_src!],
     queryFn: fetchMapUrl,
   });
+  console.log(`${levelData.name} - Fetched url`);
 
   const texture = useTexture(url);
+
+  console.log(`${levelData.name} - Loaded texture`);
   const imageDimensions = new Vector2(
     texture.image.width,
     texture.image.height
