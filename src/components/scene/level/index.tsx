@@ -27,7 +27,7 @@ export default function Level({ id, index }: { id: string; index: number }) {
   
   const { setLevels } = useSceneContext();
 
-  //useEffect(() => setLevels((prev) => new Map(prev.set(id, data))), [data]);
+  useEffect(() => setLevels((prev) => new Map(prev.set(id, data))), [data]);
 
   return (
     <motion.object3D

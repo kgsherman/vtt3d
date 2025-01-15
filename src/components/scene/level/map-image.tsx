@@ -12,14 +12,11 @@ type FetchMapUrlProps = {
 async function fetchMapUrl({ queryKey }: FetchMapUrlProps) {
   const [_key, gameId, filename] = queryKey;
 
-  // artificial delay:
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   const { data } = await supabase.storage
     .from(`maps/${gameId}`)
-    .getPublicUrl(filename);
+    .createSignedUrl(filename, 60);
 
-  return data.publicUrl;
+  return data?.signedUrl;
 }
 
 export default function MapImage() {
@@ -30,6 +27,13 @@ export default function MapImage() {
     queryKey: ["get-map", gameId, levelData.image_src!],
     queryFn: fetchMapUrl,
   });
+
+  if (!url) return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <planeGeometry args={[25, 25]} />
+      <meshBasicMaterial color="hotpink" />
+    </mesh>
+  )
 
   const texture = useTexture(url);
 
