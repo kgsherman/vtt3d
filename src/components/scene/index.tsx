@@ -32,6 +32,7 @@ function Scene() {
               {mounted && sceneLevelIds.map((levelId, i) => (
                 <Level id={levelId} key={levelId} index={i} />
               ))}
+              <Preload all />
             </AnimatePresence>
           </Suspense>
           <mesh>
