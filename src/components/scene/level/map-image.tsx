@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useGameContext } from "../../../context/game-context";
 import { supabase } from "../../../lib/entities/supabase";
-import { useTexture } from "@react-three/drei";
+import { Preload, useTexture } from "@react-three/drei";
 import { DoubleSide, Vector2 } from "three";
 import { useLevelContext } from ".";
 import { motion } from "framer-motion-3d";
@@ -30,11 +30,9 @@ export default function MapImage() {
     queryKey: ["get-map", gameId, levelData.image_src!],
     queryFn: fetchMapUrl,
   });
-  console.log(`${levelData.name} - Fetched url`);
 
   const texture = useTexture(url);
 
-  console.log(`${levelData.name} - Loaded texture`);
   const imageDimensions = new Vector2(
     texture.image.width,
     texture.image.height
@@ -67,6 +65,7 @@ export default function MapImage() {
         map={texture}
         side={DoubleSide}
       />
+      <Preload all />
     </mesh>
   );
 }

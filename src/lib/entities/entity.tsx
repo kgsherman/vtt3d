@@ -85,6 +85,7 @@ export const useEntityIds = <T extends TableKey>(table: T) => {
                     entityMatchesFilter(payload.new, filter) &&
                     entityDoesNotMatchFilter(payload.old, filter)
                   ) {
+                    console.log("I have determined that there is an update that is worth pushing", entityMatchesFilter(payload.new, filter), entityDoesNotMatchFilter(payload.old, filter), payload.new, payload.old, filter);
                     client.setQueryData(queryKey, [...ids, payload.new.id]);
                   } else if (
                     entityDoesNotMatchFilter(payload.new, filter) &&

@@ -18,6 +18,8 @@ function Scene() {
   const { useSceneLevelIds } = useScene("2c707734-38f2-446f-85aa-25a4d6f8eb57");
   const sceneLevelIds = useSceneLevelIds();
 
+  console.log(sceneLevelIds);
+
   return (
     <div
       id="scene"
@@ -25,15 +27,13 @@ function Scene() {
     >
       <SceneProvider>
         <SceneCanvas>
-          <AnimatePresence>
-            {mounted &&
-              sceneLevelIds.map((levelId, i) => (
-                <Suspense key={`loading-${levelId}`} fallback={<object3D />}>
-                  <Level id={levelId} key={levelId} index={i} />
-                  <Preload all />
-                </Suspense>
+          <Suspense fallback={null}>
+            <AnimatePresence initial={false}>
+              {mounted && sceneLevelIds.map((levelId, i) => (
+                <Level id={levelId} key={levelId} index={i} />
               ))}
-          </AnimatePresence>
+            </AnimatePresence>
+          </Suspense>
           <mesh>
             <boxGeometry />
             <meshBasicMaterial color="hotpink" />
